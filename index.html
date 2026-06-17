@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>29.06.26 💚</title>
+<style>
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#adffdf;
+    color:#017F00;
+    text-align:center;
+    position:relative;
+}
+.section{padding:60px 20px;}
+
+/* ШАПКА С ДАТОЙ И СЧЁТЧИКОМ */
+.header-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 40px;
+}
+.date-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+.date-main {
+    font-size: 48px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.date-sub {
+    font-size: 20px;
+    color: #017F00;
+    opacity: 0.8;
+}
+.counter {
+    position: fixed;
+    top: 20px;
+    right: 25px;
+    background: rgba(1, 127, 0, 0.1);
+    backdrop-filter: blur(8px);
+    padding: 12px 20px;
+    border-radius: 20px;
+    border: 2px solid #017F00;
+    font-size: 16px;
+    font-weight: bold;
+    color: #017F00;
+    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    text-align: right;
+    line-height: 1.6;
+    min-width: 150px;
+}
+.counter span {
+    display: block;
+    font-size: 14px;
+    font-weight: normal;
+    opacity: 0.8;
+}
+
+.row{display:flex;justify-content:space-around;flex-wrap:wrap;gap:30px;}
+.photo-box img,.center-photo img,.random-photo img{
+    width:280px;height:280px;object-fit:cover;border-radius:20px;
+    box-shadow:0 4px 15px rgba(0,0,0,.2);
+}
+.center-photo img{width:350px;height:350px;}
+.quiz button{
+    margin:10px;padding:12px 20px;border:none;border-radius:12px;
+    cursor:pointer;font-size:18px;background:#017F00;color:white;
+    transition:0.3s;
+}
+.quiz button:hover{transform:scale(1.05);}
+.random-gallery{
+    position:relative;
+    height:2200px;
+}
+.random-photo{
+    position:absolute;
+}
+.random-photo img{
+    width:220px;
+    height:220px;
+    object-fit:cover;
+    border-radius:20px;
+    box-shadow:0 4px 15px rgba(0,0,0,.2);
+}
+
+/* БЛОК С ЛЕГО КОТЯТАМИ */
+.lego-section {
+    margin-top: 300px;
+    padding: 40px 20px 60px;
+}
+.lego-title {
+    font-size: 28px;
+    color: #017F00;
+    margin-bottom: 40px;
+}
+.cat-row {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    flex-wrap: wrap;
+}
+.cat-item {
+    text-align: center;
+}
+.cat-item img {
+    width: 280px;
+    height: 280px;
+    object-fit: cover;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,.2);
+}
+.cat-item h2 {
+    color: #017F00;
+    margin-top: 15px;
+    font-size: 24px;
+}
+
+/* КНОПКА "Я ЛЮБЛЮ ТЕБЯ" */
+.love-btn {
+    margin-top: 50px;
+    padding: 18px 50px;
+    font-size: 26px;
+    background: #017F00;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 4px 20px rgba(1,127,0,0.3);
+}
+.love-btn:hover {
+    transform: scale(1.08);
+    box-shadow: 0 8px 35px rgba(1,127,0,0.5);
+}
+.love-btn:active {
+    transform: scale(0.95);
+}
+
+/* АМНЯМ (левый верхний угол) — теперь 🍀 увеличенный */
+.amnyam {
+    position: fixed;
+    top: 15px;
+    left: 20px;
+    z-index: 1000;
+    cursor: pointer;
+    transition: transform 0.2s;
+    user-select: none;
+    background: transparent;
+    font-size: 70px; /* УВЕЛИЧИЛ */
+    line-height: 1;
+}
+.amnyam:hover {
+    transform: scale(1.15);
+}
+.amnyam:active {
+    transform: scale(0.85);
+}
+.kiss-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 100px;
+    z-index: 9999;
+    animation: kissAnim 1.2s ease forwards;
+    pointer-events: none;
+}
+@keyframes kissAnim {
+    0% { transform: translate(-50%, -50%) scale(0.3) rotate(-20deg); opacity: 0; }
+    30% { transform: translate(-50%, -50%) scale(1.5) rotate(5deg); opacity: 1; }
+    70% { transform: translate(-50%, -50%) scale(1.2) rotate(-3deg); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 0; }
+}
+
+/* ===== РАМОЧКА ДЛЯ ОПРОСА ===== */
+.quiz-box {
+    background: rgba(173, 255, 223, 0.5);
+    border: 2px solid #8ae0b5;
+    border-radius: 30px;
+    padding: 30px 25px;
+    max-width: 500px;
+    margin: 0 auto;
+    backdrop-filter: blur(4px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+}
+
+/* ===== ЛЕТАЮЩИЕ СЕРДЕЧКИ (обычные) ===== */
+.heart{
+    position:fixed;
+    color:#ff3366;
+    pointer-events:none;
+    opacity:0.35;
+    font-size:24px;
+    animation: flyHeart linear infinite;
+    z-index:999;
+}
+@keyframes flyHeart{
+    0%{
+        transform:translateY(100vh) translateX(0) rotate(0deg) scale(0.3);
+        opacity:0;
+    }
+    10%{opacity:0.35;}
+    90%{opacity:0.35;}
+    100%{
+        transform:translateY(-10vh) translateX(80px) rotate(720deg) scale(1);
+        opacity:0;
+    }
+}
+
+/* ===== СЕРДЕЧКИ ОТ КНОПКИ ===== */
+.heart-burst {
+    position: fixed;
+    pointer-events: none;
+    font-size: 30px;
+    z-index: 9999;
+    animation: burstHeart 2.2s ease-out forwards;
+}
+@keyframes burstHeart {
+    0% { 
+        transform: translate(0, 0) scale(0.5) rotate(0deg); 
+        opacity: 1; 
+    }
+    100% { 
+        transform: translate(var(--tx), var(--ty)) scale(1.2) rotate(120deg); 
+        opacity: 0; 
+    }
+}
+
+#siteContent{display:none;}
+#login{
+height:100vh;display:flex;flex-direction:column;
+justify-content:center;align-items:center;
+}
+input{
+padding:10px;border-radius:10px;border:1px solid #017F00;
+}
+
+/* ===== ДОПОЛНИТЕЛЬНЫЙ ДЕКОР ===== */
+.sparkle {
+    position: fixed;
+    color: #ffd700;
+    pointer-events: none;
+    font-size: 20px;
+    animation: sparkleFloat linear infinite;
+    opacity: 0.6;
+    z-index: 998;
+}
+@keyframes sparkleFloat {
+    0% {
+        transform: translateY(100vh) rotate(0deg) scale(0);
+        opacity: 0;
+    }
+    20% { opacity: 0.6; }
+    80% { opacity: 0.6; }
+    100% {
+        transform: translateY(-10vh) rotate(360deg) scale(1);
+        opacity: 0;
+    }
+}
+
+/* Анимация для "^^" */
+.big-text {
+    font-size: 60px;
+    animation: bounce 1.5s ease infinite;
+    display: inline-block;
+}
+@keyframes bounce {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+</style>
+</head>
+<body>
+
+<!-- АМНЯМ (теперь 🍀 увеличенный) -->
+<div class="amnyam" id="amnyam" onclick="clickAmnyam()">🍀</div>
+
+<!-- СЧЁТЧИК В ПРАВОМ ВЕРХНЕМ УГЛУ -->
+<div class="counter" id="counter">
+    <span id="counterDays">Загрузка...</span>
+    <span id="counterFull"></span>
+</div>
+
+<div id="login">
+<h1>Введите пароль 💚</h1>
+<input type="password" id="pass">
+<br><br>
+<button onclick="checkPass()" style="padding:10px 30px;border:none;border-radius:10px;background:#017F00;color:white;font-size:18px;cursor:pointer;">Войти</button>
+<p id="wrong"></p>
+</div>
+
+<div id="siteContent">
+
+<!-- ДАТА С ЧАСАМИ И СТАТИСТИКОЙ -->
+<div class="section header-section">
+    <div class="date-wrapper">
+        <div class="date-main">
+            <span>29.06.26</span>
+            <span style="font-size:24px; opacity:0.7;">| 00:24</span>
+            <span style="font-size:18px; opacity:0.6; font-weight:normal; display:inline-block; margin-left:10px;">
+                (1 год, 0 месяцев, 0 дней)
+            </span>
+        </div>
+        <div class="date-sub">год наших отношений</div>
+    </div>
+</div>
+
+<div class="section row">
+<div class="photo-box">
+<img src="me.jpg" alt="Я">
+<h2>это я</h2>
+</div>
+
+<div class="photo-box">
+<img src="him.jpg" alt="Ты">
+<h2>это ты</h2>
+</div>
+</div>
+
+<div class="section center-photo">
+<img src="us.jpg" alt="Мы">
+<h2>а это мы вместе</h2>
+</div>
+
+<!-- ОПРОС -->
+<div class="section quiz">
+    <div class="quiz-box">
+        <h2 id="question">ты знаешь что за дата 29.06.26?</h2>
+        <div id="answers">
+            <button onclick="answerNo()">нет</button>
+            <button onclick="answerYes()">да</button>
+        </div>
+    </div>
+</div>
+
+<!-- ГАЛЕРЕЯ ФОТО -->
+<div class="random-gallery">
+    <div class="random-photo" style="top:100px;left:5%;"><img src="photo1.jpg"></div>
+    <div class="random-photo" style="top:280px;right:8%;"><img src="photo2.jpg"></div>
+    <div class="random-photo" style="top:500px;left:20%;"><img src="photo3.jpg"></div>
+    <div class="random-photo" style="top:750px;right:12%;"><img src="photo4.jpg"></div>
+    <div class="random-photo" style="top:1000px;left:30%;"><img src="photo5.jpg"></div>
+    <div class="random-photo" style="top:1250px;right:20%;"><img src="photo6.jpg"></div>
+    <div class="random-photo" style="top:1450px;left:8%;"><img src="photo7.jpg"></div>
+    <div class="random-photo" style="top:1650px;right:30%;"><img src="photo8.jpg"></div>
+    <div class="random-photo" style="top:1850px;left:40%;"><img src="photo9.jpg"></div>
+    <div class="random-photo" style="top:2050px;right:5%;"><img src="photo10.jpg"></div>
+</div>
+
+<!-- КОТЯТА + КНОПКА -->
+<div class="lego-section">
+    <h2 class="lego-title">наши лего котята</h2>
+    <div class="cat-row">
+        <div class="cat-item">
+            <img src="my_cat.jpg" alt="Мой котик">
+            <h2>мой котик</h2>
+        </div>
+        <div class="cat-item">
+            <img src="your_cat.jpg" alt="Твой котик">
+            <h2>твой котик</h2>
+        </div>
+    </div>
+    <button class="love-btn" onclick="burstHearts(event)">я люблю тебя 💚</button>
+</div>
+
+</div>
+
+<script>
+// ПАРОЛЬ
+function checkPass(){
+const p=document.getElementById("pass").value;
+if(p==="14053011290625"){
+document.getElementById("login").style.display="none";
+document.getElementById("siteContent").style.display="block";
+startCounter();
+}else{
+document.getElementById("wrong").innerText="Неверный пароль";
+}
+}
+
+// ===== СЧЁТЧИК ДНЕЙ =====
+function startCounter() {
+    const start = new Date('2025-06-29T00:24:00');
+    const now = new Date();
+    const diff = now - start;
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+    const years = Math.floor(days / 365);
+    const months = Math.floor((days % 365) / 30);
+    const remainingDays = (days % 365) % 30;
+
+    document.getElementById('counterDays').innerHTML = `❤️ ${days} дн. ${hours} ч. ${minutes} мин.`;
+    document.getElementById('counterFull').innerHTML = `(${years} г. ${months} мес. ${remainingDays} дн.)`;
+
+    const dateSpan = document.querySelector('.date-main');
+    if (dateSpan) {
+        const yearText = years > 0 ? `${years} год` : '';
+        const monthText = months > 0 ? `${months} мес` : '';
+        const dayText = `${remainingDays} дн`;
+        const stats = [yearText, monthText, dayText].filter(Boolean).join(', ');
+        dateSpan.innerHTML = `
+            <span>29.06.26</span>
+            <span style="font-size:24px; opacity:0.7;">| 00:24</span>
+            <span style="font-size:18px; opacity:0.6; font-weight:normal; display:inline-block; margin-left:10px;">
+                (${stats})
+            </span>
+        `;
+    }
+}
+
+// ===== АМНЯМ (6 кликов → поцелуй) =====
+let amnyamClicks = 0;
+function clickAmnyam() {
+    amnyamClicks++;
+    if (amnyamClicks >= 6) {
+        amnyamClicks = 0;
+        showKiss();
+    }
+}
+function showKiss() {
+    const kiss = document.createElement('div');
+    kiss.className = 'kiss-popup';
+    kiss.textContent = '😘❤️';
+    document.body.appendChild(kiss);
+    setTimeout(() => kiss.remove(), 1300);
+}
+
+// ===== ЛОГИКА ОПРОСА =====
+function answerNo(){
+document.getElementById("question").innerText="НЕТ, ТЫ ЗНАЕШЬ!";
+document.getElementById("answers").innerHTML=`
+<button onclick="resetQuiz()">да, знаю</button>
+<button onclick="resetQuiz()">знаю</button>
+`;
+}
+
+function answerYes(){
+document.getElementById("question").innerText="а что это за дата?";
+document.getElementById("answers").innerHTML=`
+<button onclick="finalAnswer()">год наших отношений</button>
+<button onclick="finalAnswer()">годик наших отношений</button>
+`;
+}
+
+function finalAnswer(){
+document.getElementById("question").innerHTML="даа!! ты угадал! я люблю тебя!";
+document.getElementById("answers").innerHTML=`
+<button onclick="showLove()">я тебя тоже люблю</button>
+`;
+}
+
+function showLove(){
+document.getElementById("question").innerHTML="<span class='big-text'>^^</span>";
+document.getElementById("answers").innerHTML=`
+<button onclick="resetQuiz()" style="background:#017F00;">^^</button>
+`;
+}
+
+function resetQuiz(){
+document.getElementById("question").innerText="ты знаешь что за дата 29.06.26?";
+document.getElementById("answers").innerHTML=`
+<button onclick="answerNo()">нет</button>
+<button onclick="answerYes()">да</button>
+`;
+}
+
+// ===== КНОПКА "Я ЛЮБЛЮ ТЕБЯ" — ТОЛЬКО 🩷 И 💚 =====
+function burstHearts(event) {
+    const btn = event.target;
+    const rect = btn.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+
+    const hearts = ['🩷', '💚'];
+    for (let i = 0; i < 45; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'heart-burst';
+        heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+        heart.style.left = cx + 'px';
+        heart.style.top = cy + 'px';
+        heart.style.fontSize = (24 + Math.random() * 40) + 'px';
+        const angle = Math.random() * 360;
+        const distance = 150 + Math.random() * 350;
+        heart.style.setProperty('--tx', Math.cos(angle) * distance + 'px');
+        heart.style.setProperty('--ty', Math.sin(angle) * distance + 'px');
+        heart.style.animationDuration = (1.8 + Math.random() * 1.2) + 's';
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 3500);
+    }
+}
+
+// ===== ЛЕТАЮЩИЕ СЕРДЕЧКИ (фоновые) =====
+for(let i=0;i<45;i++){
+let h=document.createElement("div");
+h.className="heart";
+h.innerHTML="❤️";
+h.style.left=Math.random()*100+"vw";
+h.style.top=Math.random()*100+"vh";
+h.style.fontSize=(14+Math.random()*45)+"px";
+h.style.animationDuration=(10+Math.random()*15)+"s";
+h.style.animationDelay=(Math.random()*12)+"s";
+h.style.opacity=0.2+Math.random()*0.3;
+document.body.appendChild(h);
+}
+
+// ===== ЗВЁЗДОЧКИ =====
+for(let i=0;i<30;i++){
+let s=document.createElement("div");
+s.className="sparkle";
+s.innerHTML=["✦","✧","⭐","✨","💫"][Math.floor(Math.random()*5)];
+s.style.left=Math.random()*100+"vw";
+s.style.top=Math.random()*100+"vh";
+s.style.fontSize=(12+Math.random()*30)+"px";
+s.style.animationDuration=(12+Math.random()*18)+"s";
+s.style.animationDelay=(Math.random()*15)+"s";
+s.style.opacity=0.2+Math.random()*0.4;
+document.body.appendChild(s);
+}
+</script>
+
+</body>
+</html>
